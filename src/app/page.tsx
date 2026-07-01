@@ -1,6 +1,58 @@
 import { AppShell } from "@/components/layout/app-shell";
 import { MetricCard } from "@/components/dashboard/metric-card";
+import { ModuleCard } from "@/components/dashboard/module-card";
 import { InstallPrompt } from "@/components/ui/install-prompt";
+
+const modules = [
+  {
+    title: "Dashboard",
+    description: "Executive briefings, KPI snapshots, and next-best actions for your growth engine.",
+    status: "Live",
+    accent: "from-cyan-500/20 to-sky-500/20",
+  },
+  {
+    title: "AI Chat",
+    description: "Project-aware conversations for ideation, strategy, and execution support.",
+    status: "Planned",
+    accent: "from-violet-500/20 to-fuchsia-500/20",
+  },
+  {
+    title: "Projects",
+    description: "Structured workspaces for goals, keywords, ideas, scripts, pins, analytics, and memory.",
+    status: "Planned",
+    accent: "from-emerald-500/20 to-lime-500/20",
+  },
+  {
+    title: "Content Calendar",
+    description: "Daily, weekly, and monthly planning with reminders, batching, and publishing automation.",
+    status: "Planned",
+    accent: "from-amber-500/20 to-orange-500/20",
+  },
+  {
+    title: "Analytics",
+    description: "Beautiful dashboards for views, CTR, watch time, saves, outbound clicks, revenue estimates, and trends.",
+    status: "Planned",
+    accent: "from-rose-500/20 to-pink-500/20",
+  },
+  {
+    title: "Prompt Library",
+    description: "Reusable system prompts, image prompts, video prompts, SEO prompts, and templates.",
+    status: "Planned",
+    accent: "from-blue-500/20 to-indigo-500/20",
+  },
+  {
+    title: "Knowledge Base",
+    description: "Persistent brand context, audience insight, affiliate programs, and operating playbooks.",
+    status: "Planned",
+    accent: "from-slate-500/20 to-slate-600/20",
+  },
+  {
+    title: "Settings",
+    description: "Provider switching, integrations, automation preferences, and workspace controls.",
+    status: "Planned",
+    accent: "from-cyan-500/20 to-violet-500/20",
+  },
+];
 
 const metrics = [
   {
@@ -71,6 +123,24 @@ export default function Home() {
         <div className="mt-8 grid gap-4 md:grid-cols-3">
           {metrics.map((item) => (
             <MetricCard key={item.title} {...item} />
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[32px] border border-white/10 bg-slate-950/70 p-6 shadow-2xl shadow-black/30 backdrop-blur-xl">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Module architecture</p>
+            <h2 className="mt-2 text-xl font-semibold text-white">The platform is being built as a modular AI operating system</h2>
+          </div>
+          <p className="max-w-2xl text-sm leading-6 text-slate-400">
+            Each capability is designed to integrate cleanly with the next, while keeping YouTube and Pinterest-specific logic isolated behind platform adapters.
+          </p>
+        </div>
+
+        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {modules.map((module) => (
+            <ModuleCard key={module.title} {...module} />
           ))}
         </div>
       </section>
