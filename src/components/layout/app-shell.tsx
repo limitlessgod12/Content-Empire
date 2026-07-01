@@ -1,17 +1,19 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
 const navigation = [
-  { label: "Dashboard", active: true },
-  { label: "AI Chat" },
-  { label: "Projects" },
-  { label: "Content Calendar" },
-  { label: "Analytics" },
-  { label: "Prompt Library" },
-  { label: "Knowledge Base" },
-  { label: "Settings" },
+  { label: "Dashboard", href: "/" },
+  { label: "Projects", href: "/projects" },
+  { label: "Prompt Library", href: "/prompt-library" },
+  { label: "Settings", href: "/settings" },
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.18),_transparent_40%),linear-gradient(135deg,#07111f_0%,#101b2e_100%)] text-slate-100">
       <div className="mx-auto flex max-w-7xl flex-col px-4 py-4 sm:px-6 lg:flex-row lg:gap-6 lg:px-8 lg:py-6">
@@ -32,19 +34,23 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
 
           <nav className="space-y-1">
-            {navigation.map((item) => (
-              <button
-                key={item.label}
-                className={`flex w-full items-center justify-between rounded-2xl px-3 py-2.5 text-sm transition ${
-                  item.active
-                    ? "bg-white/10 text-white shadow-inner"
-                    : "text-slate-400 hover:bg-white/5 hover:text-slate-100"
-                }`}
-              >
-                <span>{item.label}</span>
-                {item.active ? <span className="text-cyan-300">↗</span> : null}
-              </button>
-            ))}
+            {navigation.map((item) => {
+              const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={`flex w-full items-center justify-between rounded-2xl px-3 py-2.5 text-sm transition ${
+                    active
+                      ? "bg-white/10 text-white shadow-inner"
+                      : "text-slate-400 hover:bg-white/5 hover:text-slate-100"
+                  }`}
+                >
+                  <span>{item.label}</span>
+                  {active ? <span className="text-cyan-300">↗</span> : null}
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-4">
