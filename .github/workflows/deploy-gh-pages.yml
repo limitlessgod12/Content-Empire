@@ -1,0 +1,46 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Set base path for GitHub Pages
+        run: |
+          if [[ "${GITHUB_REPOSITORY##*/}" == "${GITHUB_REPOSITORY_OWNER}.github.io" ]]; then
+            echo "NEXT_PUBLIC_BASE_PATH=" >> $GITHUB_ENV
+          else
+            echo "NEXT_PUBLIC_BASE_PATH=/${GITHUB_REPOSITORY##*/}" >> $GITHUB_ENV
+          fi
+
+      - name: Build and export
+        run: npm run build && npm run export
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          publish_dir: ./out
+          publish_branch: gh-pages
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com
